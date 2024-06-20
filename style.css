@@ -46,7 +46,7 @@ input[type="color"]::before {
     225deg,
     red, orange, yellow, green, blue, indigo, violet
   );
-  z-index: -1;
+  z-index: -1; 
 }
 
 .color-select {
@@ -71,7 +71,7 @@ input[type="color"]::before {
   display: flex;
   flex-direction: column;
   background-color: #bbb3a9;
-  padding: 40px 40px;
+  padding: 60px 40px;
   border-radius: 20px;
   border: 5px solid #000;
 }

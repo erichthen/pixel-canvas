@@ -3,7 +3,7 @@ let grid_button = document.getElementById('submit-grid');
 let cleargrid_button = document.getElementById('clear-grid');
 let grid_width = document.getElementById('width-range');
 let grid_height = document.getElementById('height-range');
-let colorButton = document.getElementById('color-input');
+let color_button = document.getElementById('color-input');
 let erase_button = document.getElementById('erase-button');
 let paint_button = document.getElementById('paint-button');
 let width_value = document.getElementById('width-value');
@@ -49,7 +49,7 @@ grid_button.addEventListener('click', () => {
         if (erase) {
           col.style.backgroundColor = 'transparent';
         } else {
-          col.style.backgroundColor = colorButton.value;
+          col.style.backgroundColor = color_button.value;
         }
       });
       col.addEventListener(events.move, (e) => {
@@ -66,7 +66,11 @@ grid_button.addEventListener('click', () => {
 });
 
 cleargrid_button.addEventListener('click', () => {
-  grid.innerHTML = '';
+    //iterate through the grid, set color to transparent
+    let grid_cols = document.querySelectorAll('.grid-col');
+    grid_cols.forEach((col) => {
+      col.style.backgroundColor = 'transparent';
+    });
 });
 
 erase_button.addEventListener('click', () => {
@@ -95,11 +99,11 @@ window.onload = () => {
 
 //pass in square id, check, color
 function checker(elementId) {
-  let gridColumns = document.querySelectorAll('.grid-col');
-  gridColumns.forEach((element) => {
+  let grid_cols = document.querySelectorAll('.grid-col');
+  grid_cols.forEach((element) => {
     if (elementId == element.id) {
       if (draw && !erase) {
-        element.style.backgroundColor = colorButton.value;
+        element.style.backgroundColor = color_button.value;
       } else if (draw && erase) {
         element.style.backgroundColor = 'transparent';
       }
