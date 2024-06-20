@@ -1,97 +1,107 @@
-
-let container = document.querySelector(".container");
-let gridButton = document.getElementById("submit-grid");
-let clearGridButton = document.getElementById("clear-grid");
-let gridWidth = document.getElementById("width-range");
-let gridHeight = document.getElementById("height-range");
-let colorButton = document.getElementById("color-input");
-let eraseBtn = document.getElementById("erase-btn");
-let paintBtn = document.getElementById("paint-btn");
-let widthValue = document.getElementById("width-value");
-let heightValue = document.getElementById("height-value");
-
+let grid = document.querySelector('.grid');
+let grid_button = document.getElementById('submit-grid');
+let cleargrid_button = document.getElementById('clear-grid');
+let grid_width = document.getElementById('width-range');
+let grid_height = document.getElementById('height-range');
+let colorButton = document.getElementById('color-input');
+let erase_button = document.getElementById('erase-button');
+let paint_button = document.getElementById('paint-button');
+let width_value = document.getElementById('width-value');
+let height_value = document.getElementById('height-value');
+let title = document.getElementById('title');
 
 let events = {
-  mouse: {
-    down: "mousedown",
-    move: "mousemove",
-    up: "mouseup",
-  },
-  touch: {
-    down: "touchstart",
-    move: "touchmove",
-    up: "touchend",
-  },
+  down: 'mousedown',
+  move: 'mousemove',
+  up: 'mouseup',
 };
-
-let deviceType = "";
-
 
 let draw = false;
 let erase = false;
 
+grid_button.addEventListener('click', () => {
 
-const isTouchDevice = () => {
-  try {
+  //screen change
+  title.classList.add('hidden');
+  document.querySelector('.begin-options').classList.add('hidden');
+  document.querySelector('.outer-wrapper').classList.add('hidden');
+  document.querySelector('.draw-wrapper').classList.remove('hidden');
 
-    document.createEvent("TouchEvent");
-    deviceType = "touch";
-    return true;
-  } catch (e) {
-    deviceType = "mouse";
-    return false;
-  }
-};
+  const grid_backdrop = document.createElement('div');
+  grid_backdrop.classList.add('grid-backdrop');
+  grid.innerHTML = '';
+  grid.appendChild(grid_backdrop);
 
-isTouchDevice();
-
-
-gridButton.addEventListener("click", () => {
-
-  container.innerHTML = "";
+  //construct grid, each sqaure gets id
   let count = 0;
-  for (let i = 0; i < gridHeight.value; i++) {
-
+  for (let i = 0; i < grid_height.value; i++) {
     count += 2;
-    let div = document.createElement("div");
-    div.classList.add("gridRow");
+    let div = document.createElement('div');
+    div.classList.add('grid-row');
 
-    for (let j = 0; j < gridWidth.value; j++) {
+    for (let j = 0; j < grid_width.value; j++) {
       count += 2;
-      let col = document.createElement("div");
-      col.classList.add("gridCol");
-      col.setAttribute("id", `gridCol${count}`);
-      col.addEventListener(events[deviceType].down, () => {
+      let col = document.createElement('div');
+      col.classList.add('grid-col');
+      col.setAttribute('id', `gridCol${count}`);
+      col.addEventListener(events.down, () => {
         draw = true;
         if (erase) {
-          col.style.backgroundColor = "transparent";
+          col.style.backgroundColor = 'transparent';
         } else {
           col.style.backgroundColor = colorButton.value;
         }
       });
-      col.addEventListener(events[deviceType].move, (e) => {
-        let elementId = document.elementFromPoint(
-          !isTouchDevice() ? e.clientX : e.touches[0].clientX,
-          !isTouchDevice() ? e.clientY : e.touches[0].clientY
-        ).id;
+      col.addEventListener(events.move, (e) => {
+        let elementId = document.elementFromPoint(e.clientX, e.clientY).id;
         checker(elementId);
       });
-      col.addEventListener(events[deviceType].up, () => {
+      col.addEventListener(events.up, () => {
         draw = false;
       });
       div.appendChild(col);
     }
-    container.appendChild(div);
+    grid_backdrop.appendChild(div);
   }
 });
+
+cleargrid_button.addEventListener('click', () => {
+  grid.innerHTML = '';
+});
+
+erase_button.addEventListener('click', () => {
+  erase = true;
+});
+
+paint_button.addEventListener('click', () => {
+  erase = false;
+});
+
+grid_width.addEventListener('input', () => {
+  width_value.innerHTML = grid_width.value;
+});
+
+grid_height.addEventListener('input', () => {
+  height_value.innerHTML = grid_height.value;
+});
+
+window.onload = () => {
+  grid_width.value = 1;
+  grid_height.value = 1;
+  width_value.innerHTML = '10';
+  height_value.innerHTML = '10';
+};
+
+
+//pass in square id, check, color
 function checker(elementId) {
-  let gridColumns = document.querySelectorAll(".gridCol");
+  let gridColumns = document.querySelectorAll('.grid-col');
   gridColumns.forEach((element) => {
     if (elementId == element.id) {
       if (draw && !erase) {
         element.style.backgroundColor = colorButton.value;
       } else if (draw && erase) {
-        element.style.backgroundColor = "transparent";
+        element.style.backgroundColor = 'transparent';
       }
     }
   });

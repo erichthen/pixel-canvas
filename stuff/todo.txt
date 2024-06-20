@@ -1,0 +1,6 @@
+todo
+
+lower sliders a bit
+fix clear button
+add a save/gallery system
+add thickness option
