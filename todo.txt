@@ -2,4 +2,4 @@ todo
 
 undo button
 add a save/gallery system
-add thickness option
+stroke option

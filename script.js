@@ -47,7 +47,7 @@ grid_button.addEventListener('click', () => {
       col.addEventListener(events.down, () => {
         draw = true;
         if (erase) {
-          col.style.backgroundColor = 'transparent';
+          col.style.backgroundColor = 'transparent' ;
         } else {
           col.style.backgroundColor = color_button.value;
         }
@@ -92,8 +92,8 @@ grid_height.addEventListener('input', () => {
 window.onload = () => {
   grid_width.value = 1;
   grid_height.value = 1;
-  width_value.innerHTML = '10';
-  height_value.innerHTML = '10';
+  width_value.innerHTML = '20';
+  height_value.innerHTML = '20';
 };
 
 
