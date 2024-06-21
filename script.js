@@ -87,6 +87,10 @@ document.querySelectorAll('.stroke-button').forEach(button => {
   });
 });
 
+document.querySelector('.draw-wrapper').addEventListener('mouseleave', () => {
+  draw = false;
+});
+
 button_stroke1.addEventListener('click', () => {
   brush_size = 1;
 });
