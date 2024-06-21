@@ -2,4 +2,5 @@ todo
 
 undo button
 add a save/gallery system
-stroke option
+try to evenly distribute strokes
+try to fix wrap issue on large stroke
