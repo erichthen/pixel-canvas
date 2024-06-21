@@ -13,12 +13,12 @@
                 <div class="slider">
                     <label for="width-range">Grid Width</label>
                     <input type="range" id="width-range" min="20" max="60"/>
-                    <span id="width-value">00</span>
+                    <span id="width-value">20</span>
                 </div>
                 <div class="slider">
                      <label for="height-range">Grid Height</label>
                      <input type="range" id="height-range" min="20" max="60"/>
-                     <span id="height-value">00</span>
+                     <span id="height-value">20</span>
                 </div>
                 <div class="create-grid-wrapper">
                     <button id="submit-grid">Create Grid</button>
@@ -34,16 +34,18 @@
             <button id="erase-button">Erase</button>
             <button id="paint-button">Paint</button>
             <div class="color-select">
-                <input type="color" id='color-input'/> <!-- rbg spectrum/input and dropper -->
+                <input type="color" id='color-input'/> 
+            </div>
+            <div class="stroke-options">
+                <button id="small" class="stroke-button"></button>
+                <button id="med" class="stroke-button"></button>
+                <button id="large" class="stroke-button"></button>
             </div>
         </div>
     </div>
     <script src="script.js"></script>
 </body>
 </html>
-
-
-
 
 
 

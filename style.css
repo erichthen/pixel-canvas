@@ -135,7 +135,7 @@ span {
   flex-direction: column;
   justify-content: center;
   margin-right: 10px;
-  margin-bottom: -50px;
+  margin-bottom: -80px;
   gap: 10px;
   margin-left: -46px;
 }
@@ -150,8 +150,44 @@ span {
   
 .draw-options button:hover {
   background-color: #bbb3a9;
-  border-color: #0d2b4a;
 }
+
+.stroke-options {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.stroke-options button {
+  background-color: #ffffff;
+  border: 3px solid #ffffff;
+  border-radius: 75%;
+  cursor: pointer;
+}
+
+.stroke-button.active {
+  background-color: #000000; /* Active button color */
+  border: 3px solid #000
+}
+
+#small {
+  width: 14px;
+  height: 14px;
+}
+
+#med {
+  width: 20px;
+  height: 20px;
+}
+
+#large {
+  width: 26px;
+  height: 26px;
+}
+
 
 .create-grid-wrapper button {
   font-size: 30px;

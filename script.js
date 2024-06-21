@@ -6,6 +6,9 @@ let grid_height = document.getElementById('height-range');
 let color_button = document.getElementById('color-input');
 let erase_button = document.getElementById('erase-button');
 let paint_button = document.getElementById('paint-button');
+let button_stroke1 = document.getElementById('small');
+let button_stroke2 = document.getElementById('med');
+let button_stroke3 = document.getElementById('large');
 let width_value = document.getElementById('width-value');
 let height_value = document.getElementById('height-value');
 let title = document.getElementById('title');
@@ -18,10 +21,10 @@ let events = {
 
 let draw = false;
 let erase = false;
+let brush_size = 1;
 
 grid_button.addEventListener('click', () => {
-
-  //screen change
+  // screen change
   title.classList.add('hidden');
   document.querySelector('.begin-options').classList.add('hidden');
   document.querySelector('.outer-wrapper').classList.add('hidden');
@@ -32,7 +35,7 @@ grid_button.addEventListener('click', () => {
   grid.innerHTML = '';
   grid.appendChild(grid_backdrop);
 
-  //construct grid, each sqaure gets id
+  // construct grid, each square gets id
   let count = 0;
   for (let i = 0; i < grid_height.value; i++) {
     count += 2;
@@ -46,11 +49,7 @@ grid_button.addEventListener('click', () => {
       col.setAttribute('id', `gridCol${count}`);
       col.addEventListener(events.down, () => {
         draw = true;
-        if (erase) {
-          col.style.backgroundColor = 'transparent' ;
-        } else {
-          col.style.backgroundColor = color_button.value;
-        }
+        draw_pixels(col);
       });
       col.addEventListener(events.move, (e) => {
         let elementId = document.elementFromPoint(e.clientX, e.clientY).id;
@@ -66,11 +65,11 @@ grid_button.addEventListener('click', () => {
 });
 
 cleargrid_button.addEventListener('click', () => {
-    //iterate through the grid, set color to transparent
-    let grid_cols = document.querySelectorAll('.grid-col');
-    grid_cols.forEach((col) => {
-      col.style.backgroundColor = 'transparent';
-    });
+  // iterate through the grid, set color to transparent
+  let grid_cols = document.querySelectorAll('.grid-col');
+  grid_cols.forEach((col) => {
+    col.style.backgroundColor = 'transparent';
+  });
 });
 
 erase_button.addEventListener('click', () => {
@@ -79,6 +78,25 @@ erase_button.addEventListener('click', () => {
 
 paint_button.addEventListener('click', () => {
   erase = false;
+});
+
+document.querySelectorAll('.stroke-button').forEach(button => {
+  button.addEventListener('click', function() {
+    document.querySelectorAll('.stroke-button').forEach(btn => btn.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+
+button_stroke1.addEventListener('click', () => {
+  brush_size = 1;
+});
+
+button_stroke2.addEventListener('click', () => {
+  brush_size = 2;
+});
+
+button_stroke3.addEventListener('click', () => {
+  brush_size = 3;
 });
 
 grid_width.addEventListener('input', () => {
@@ -96,17 +114,30 @@ window.onload = () => {
   height_value.innerHTML = '20';
 };
 
+function draw_pixels(col) {
+  let id = parseInt(col.id.replace("gridCol", "")); // Extract the numerical part of the id
+  let row = Math.floor(id / (grid_width.value * 2));
+  let colIndex = (id % (grid_width.value * 2)) / 2;
 
-//pass in square id, check, color
-function checker(elementId) {
-  let grid_cols = document.querySelectorAll('.grid-col');
-  grid_cols.forEach((element) => {
-    if (elementId == element.id) {
-      if (draw && !erase) {
-        element.style.backgroundColor = color_button.value;
-      } else if (draw && erase) {
-        element.style.backgroundColor = 'transparent';
+  for (let i = 0; i < brush_size; i++) {
+    for (let j = 0; j < brush_size; j++) {
+      let rowOffset = row + i;
+      let colOffset = colIndex + j;
+      let index = (rowOffset * grid_width.value * 2) + (colOffset * 2);
+      let pixelId = `gridCol${index}`;
+      let pixel = document.getElementById(pixelId);
+      if (pixel) {
+        pixel.style.backgroundColor = erase ? 'transparent' : color_button.value;
       }
     }
-  });
+  }
+}
+
+function checker(elementId) {
+  if (draw) {
+    let element = document.getElementById(elementId);
+    if (element) {
+      draw_pixels(element);
+    }
+  }
 }
